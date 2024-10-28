@@ -20,6 +20,7 @@ export const Products: React.FC = () => {
   useEffect(() => {
     if (productId) {
       const product = PRODUCTS_DATA.find((p) => p.id === productId);
+      // bind product
       if (product) setSelectedProduct(product);
     }
   }, [productId]);
