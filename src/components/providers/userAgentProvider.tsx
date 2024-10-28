@@ -21,7 +21,7 @@ type UserAgentContextType = {
 
 type UserAgentProviderProps = {
   children: ReactNode;
-  userAgent?: UserAgent;
+  initialUserAgent?: UserAgent;
 };
 
 const UserAgentContext = createContext<UserAgentContextType | undefined>(
@@ -38,16 +38,18 @@ export const useUserAgentContext = (): UserAgentContextType => {
 
 export const UserAgentProvider: React.FC<UserAgentProviderProps> = ({
   children,
-  userAgent: userAgentProp,
+  initialUserAgent,
 }) => {
   const [userAgent, setUserAgent] = useState<UserAgent | undefined>(
-    userAgentProp
+    initialUserAgent
   );
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    setUserAgent(window.navigator.userAgent);
-  }, []);
+    // Only update if running on the client side and JavaScript is enabled
+    if (typeof window !== "undefined" && !userAgent) {
+      setUserAgent(window.navigator.userAgent);
+    }
+  }, [userAgent]);
 
   const value = useMemo<UserAgentContextType>(
     () => ({
