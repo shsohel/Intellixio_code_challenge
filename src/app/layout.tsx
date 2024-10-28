@@ -8,7 +8,7 @@ import { Layout } from "@/components/layout";
 const RootLayout: React.FC<{ children: React.ReactNode }> = async ({
   children,
 }) => {
-  // get user agent from server headers
+  // Get user agent from server headers
   const userAgent = headers().get("user-agent") || undefined;
 
   return (
